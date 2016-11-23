@@ -1,25 +1,22 @@
-
-
-
 def english (num)
-  ones = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"]
-  teens = ["eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"]
-  tens = ["twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"]
   bigs = [ "thousand", "million", "billion", "trillion"]
   slices = num.reverse.scan(/.{1,3}/).reverse.map {|x| x.reverse}
-
-  puts "#{slices}"
   num_string = ""
   l = slices.length
+  puts "#{slices}"
   slices.each_with_index {
     |slice, idx|
-    add_string = english_number(slice.to_i)
-
-    add_string += (" "+bigs[l-idx])
-    puts "#{add_string}"
+    unless idx == l-1
+      num_string += ( " " + english_number(slice.to_i) + " " + (bigs[l-idx-2]) + "," )
+    else
+      num_string.chop!
+      num_string += (" and " + english_number(slice.to_i))
+    end
   }
+  num_string
 end
 
+#Using Chris Pine's english number method....
 def english_number number
   if number < 0 # No negative numbers.
     return 'Please enter a number that isn\'t negative.'
@@ -92,4 +89,4 @@ end
 
 puts "Enter a number to convert to English"
 num = gets.chomp!
-puts "Your number is #{english(num)}"
+puts "Your number is #{english(num).lstrip}"
