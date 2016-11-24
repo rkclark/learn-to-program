@@ -1,6 +1,3 @@
-puts "Enter roman numeral"
-rom = gets.chomp
-
 numerals = [
   ["M", 1000],
   ["D", 500],
@@ -12,6 +9,12 @@ numerals = [
 ]
 
 def rom_to_int (rom, numerals, int)
+  rom.split("").each { |c|
+    unless "MDCLXVI".include?(c.to_s)
+      raise "ERROR: Not a valid numeral"
+      exit
+    end
+  }
   #We iterate through numerals highest to smallest
   numerals.each {
     |numeral|
@@ -43,4 +46,6 @@ def rom_to_int (rom, numerals, int)
   int.to_s
 end
 
+puts "Enter roman numeral"
+rom = gets.chomp
 puts "Your numeral equals " + rom_to_int(rom,numerals,0)
