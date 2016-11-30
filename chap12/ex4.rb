@@ -10,31 +10,20 @@ File.foreach(filename) do
   bdays[strings[0]] = Time.new(strings[2],month,monthday[1])
 end
 
-puts "Who's birthday do you want to know?"
+puts "Whose birthday do you want to know?"
 person = gets.chomp
 if !bdays[person]
   puts "Not a valid person"
   exit
 end
+
 dob = bdays[person]
-age_in_years = Time.now.year - dob.year
-puts age_in_years
-puts (Time.now.to_f % 1).to_s
-puts dob.to_f
-puts (dob.to_f % 1).to_s
-#Thhis doesn't work...
-if (Time.now.to_f % 1) < (dob.to_f % 1)
-  puts "not had bday yet this year"
-  puts "#{person} will be "+((age_in_years - 1).to_s)+" on "+(dob.strftime("%d %b"))
+age_in_years = (((Time.now - dob).to_i)/60/60/24/365.25).floor
+
+if Time.now.month > dob.month || (Time.now.month == dob.month && Time.now.day > dob.day)
+  puts "#{person} will turn #{age_in_years + 1} on #{dob.strftime("%d %b")} #{Time.now.year + 1}"
+elsif (Time.now.month == dob.month) && (Time.now.day == dob.day)
+  puts "#{person} turns #{age_in_years} today!"
 else
-  puts "#{person} will be "+((age_in_years + 1).to_s)+" on "+(dob.strftime("%d %b"))
+  puts "#{person} will turn #{age_in_years + 1} on #{dob.strftime("%d %b")}"
 end
-
-
-
-
-#age_in_years = age/60/60/24/365.25
-#to_bday =  1- (age_in_years % 1)
-#to_bday *= (60*60*24*365.25)
-#next_age = age_in_years.to_i + 1
-#puts person + "'s next birthday is "+((Time.now + to_bday).strftime("%d/%m/%Y")) +" and he will be #{next_age}"
